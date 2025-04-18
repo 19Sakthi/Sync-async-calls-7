@@ -17,7 +17,7 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
   kafka:
-   bootstrap-servers: 127.0.0.3:9092
+   bootstrap-servers: localhost:9092
    consumer:
      group-id: my-group
      auto-offset-reset: earliest

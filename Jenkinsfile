@@ -1,35 +1,44 @@
 pipeline {
-    agent any
-    environment {
-        clone = 'https://github.com/19Sakthi/Sync-async-calls-7.git'
+  agent any
+  stages {
+    stage('Clone') {
+      steps {
+        git(
+          url:,
+          branch: 'main',
+          changelog: true,
+          poll: true
+        )
+      }
     }
-    stages {
-        stage('clone') {
-            steps {
-                git(url: "${clone}", branch: 'main', changelog: true, poll: true)
-            }
-        }
-        stage('test') {
-            steps {
-                script {
-                    echo 'Running tests...'
-                }
-            }
-        }
-        stage('package') {
-            steps {
-                script {
-                    echo 'Packaging application...'
-                }
-            }
-        }
-        stage('Deploy') {
-            steps {
-                script {
-                    echo 'Deploying application...'
-                    
-                }
-            }
-        }
+ 
+    stage('Build') {
+      steps {
+        echo 'Building the project...'
+        sh 'mvn clean compile'
+      }
     }
+ 
+    stage('Test') {
+      steps {
+        echo 'Running unit tests...'
+        sh 'mvn test'
+      }
+    }
+ 
+    stage('Package') {
+      steps {
+        echo 'Packaging the application...'
+        sh 'mvn package'
+      }
+    }
+ 
+    stage('Deploy') {
+      steps {
+        echo 'Deploying application...'
+      }
+    }
+  }
 }
+
+
